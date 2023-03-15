@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-const cars = ["Saab", "Volvo", "Polestar", "Citroen", "Renault"];
+import Car from "./Car";
 
 function Cars() {
   const [cars, setCars] = useState([
@@ -19,21 +19,32 @@ function Cars() {
   ]);
   const [searchText, setSearchText] = useState("");
 
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    if (searchText) {
+      setCars([...cars, searchText]);
+      setSearchText("");
+    }
+  };
+
   return (
     <div>
-      <form>
+      <form onSubmit={handleOnSubmit}>
         <Grid container gap={1}>
-          <TextField type="text" label="Add a car" />
-          <Button type="submit" variant="contained">
+          <TextField
+            type="text"
+            label="Add a car"
+            onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+          />
+          <Button type="submit" variant="contained" disabled={!searchText}>
             Add new car
           </Button>
         </Grid>
       </form>
       <List>
         {cars.map((car) => (
-          <ListItem key={car}>
-            <Typography variant="body1">{car}</Typography>
-          </ListItem>
+          <Car key={car} carName={car} />
         ))}
       </List>
     </div>
