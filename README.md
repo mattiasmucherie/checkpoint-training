@@ -1,4 +1,4 @@
-# Preperation for Checkpoint
+# Preparation for Checkpoint
 
 The repo has everything needed to use MUI if you want to but it's not a must.
 Just make sure that the website looks good :smile:

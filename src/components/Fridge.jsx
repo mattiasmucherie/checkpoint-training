@@ -12,7 +12,48 @@ function Fridge() {
     { name: "Lettuce", count: 1 },
   ]);
 
-  return <Typography>Fridge</Typography>;
+  const [error, setError] = useState("");
+
+  const handleOnSubmit = (event) => {
+    event.preventDefault();
+    setError("");
+    const item = event.target.elements[0].value;
+    const count = event.target.elements[1].value;
+    const updatedFridge = [...fridgeItems];
+    const index = updatedFridge.findIndex((fridgeItem) => {
+      return fridgeItem.name === item;
+    });
+    if (index === -1) {
+      setError("Couldn't find that item");
+    } else {
+      if (updatedFridge[index].count - Number(count) < 0) {
+        setError("You dont have enought of that item");
+      } else {
+        updatedFridge[index].count = updatedFridge[index].count - Number(count);
+        setFridgeItems(updatedFridge);
+      }
+    }
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleOnSubmit}>
+        <input type="text" name="item" />
+        <input type="number" name="count" />
+        <button type="submit"> Remove items from fridge</button>
+      </form>
+      <p>{error}</p>
+      <ul>
+        {fridgeItems.map((fi) => {
+          return (
+            <li key={fi.name}>
+              {fi.name} {fi.count}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
 }
 
 export default Fridge;
